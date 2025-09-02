@@ -12,8 +12,8 @@ export default async function Notes({ params }: NotesProps) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['notes', 1, '', tag], 
-    queryFn: () => fetchNotes('', 1, tag),
+    queryKey: ['notes', tag], 
+    queryFn: () => fetchNotes(tag),
   })
 
   return (

@@ -7,9 +7,11 @@ import { fetchNoteById } from '@/lib/api';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Modal from '@/components/Modal/Modal';
+import { JSX } from 'react';
 
 
-export default function NoteDetails() {
+
+export default function NoteDetails():JSX.Element {
   const { id } = useParams<{ id: string }>();
   const { isLoading, isError, isFetching, data, error } = useQuery({
     queryKey: ['IDnote', id],

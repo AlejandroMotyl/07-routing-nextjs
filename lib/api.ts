@@ -15,8 +15,8 @@ interface headersParams{
 interface FetchParams extends headersParams{
     params: {
         tag?:string
-        page: number,
-        search: string,
+        page?: number,
+        search?: string,
         perPage: number,
     }
 }
@@ -26,7 +26,7 @@ interface CreateBody{
     tag:string,
 }
 
-export async function fetchNotes(keyWord: string, page: number, tag?: string): Promise<FetchResult>{
+export async function fetchNotes(keyWord?: string, page?: number, tag?: string): Promise<FetchResult>{
 
  tag = tag === "All" ? undefined : tag;
 
