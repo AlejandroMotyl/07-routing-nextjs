@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react'
-import css from "@/app/notes/page.module.css"
+import css from "@/app/notes/filter/[...slug]/NotesPage.module.css"
 import {useQuery} from '@tanstack/react-query';
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
@@ -15,8 +15,11 @@ import { fetchNotes } from '@/lib/api';
 import NoNotesMessage from '@/components/NoNotesMessage/NoNotesMessage';
 import { keepPreviousData } from '@tanstack/react-query';
 
+type NotesClientProps = {
+  tag: string;
+};
 
-export default function AppClient() {
+export default function NotesClient({tag}:NotesClientProps) {
   const [page, setPage] = useState<number>(1);
   const [query, setQuery] = useState<string>('');
   const [modalIsOpen, setModalState] = useState<boolean>(false);
@@ -24,15 +27,15 @@ export default function AppClient() {
 
 
 const { isLoading, isError, isFetching, data } = useQuery({
-  queryKey: ['notes', page, query],
-  queryFn: () => fetchNotes(query, page),
+  queryKey: ['notes', page, query, tag],
+  queryFn: () => fetchNotes(query, page, tag),
   placeholderData:keepPreviousData,
   refetchOnMount: false,
 })
 
   
   const notes = (data && data.notes) ? data.notes : [];  
-  const totalPages = (data && data.notes) ? data.totalPages : 0;  
+  const totalPages = (data && data.notes) ? data.totalPages : 1;  
 
 
   const openModal = () => setModalState(true);
@@ -58,7 +61,7 @@ const { isLoading, isError, isFetching, data } = useQuery({
         : (isError ) ? (<ErrorMessage />)
         : (notes.length === 0) ? (<NoNotesMessage />)
         : (<>
-          {notes.length > 1 && <Pagination totalPages={totalPages} page={page} setPage={setPage} />} 
+          {totalPages > 1 && <Pagination totalPages={totalPages} page={page} setPage={setPage} />} 
           <NoteList notes={notes} />
           </>)
           }

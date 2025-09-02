@@ -14,6 +14,7 @@ interface headersParams{
 
 interface FetchParams extends headersParams{
     params: {
+        tag?:string
         page: number,
         search: string,
         perPage: number,
@@ -25,12 +26,16 @@ interface CreateBody{
     tag:string,
 }
 
-export async function fetchNotes(keyWord: string, page: number): Promise<FetchResult>{
+export async function fetchNotes(keyWord: string, page: number, tag?: string): Promise<FetchResult>{
+
+ tag = tag === "All" ? undefined : tag;
+
 const fetchParams:FetchParams = {
-  params: {
+    params: {
+    tag:tag,
     page: page,
     search: keyWord,
-    perPage: 12, 
+    perPage: 9, 
   },
   headers: {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,

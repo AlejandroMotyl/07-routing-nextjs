@@ -4,6 +4,7 @@ export interface Note{
     content: string,
     createdAt: string,
     updatedAt: string,
-    tag: string,
+    tag: NoteTag,
 }
-export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+export const noteTags = ["Todo", "Work", "Personal", "Meeting", "Shopping", "All"] as const;
+export type NoteTag = (typeof noteTags)[number];
